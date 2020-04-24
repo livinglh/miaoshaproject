@@ -8,4 +8,10 @@ public interface UserService {
     UserModel getUserById(Integer id);
 
     void rigist(UserModel userModel) throws BusinessException;
+
+    /*
+    telphone:用户手机号
+    password:用户加密后的密码
+     */
+    UserModel validateLogin(String telphone, String encrptPassword) throws BusinessException;
 }
