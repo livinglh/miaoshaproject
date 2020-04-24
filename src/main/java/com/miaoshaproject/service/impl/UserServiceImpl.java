@@ -8,6 +8,8 @@ import com.miaoshaproject.error.BusinessException;
 import com.miaoshaproject.error.EmBusinessError;
 import com.miaoshaproject.service.UserService;
 import com.miaoshaproject.service.model.UserModel;
+import com.miaoshaproject.validator.ValidationResult;
+import com.miaoshaproject.validator.ValidatorImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserPasswordDOMapper userPasswordDOMapper;
+
+    @Autowired
+    private ValidatorImpl validator;
 
     @Override
     public UserModel getUserById(Integer id) {
@@ -40,11 +45,15 @@ public class UserServiceImpl implements UserService {
         if(userModel == null){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
         }
-        if(StringUtils.isEmpty(userModel.getName())
-                || userModel.getAge() == null
-                || userModel.getGender() == null
-                || StringUtils.isEmpty(userModel.getTelphone())){
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
+//        if(StringUtils.isEmpty(userModel.getName())
+//                || userModel.getAge() == null
+//                || userModel.getGender() == null
+//                || StringUtils.isEmpty(userModel.getTelphone())){
+//            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
+//        }
+        ValidationResult result = validator.validate(userModel);
+        if(result.isHasErrors()){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, result.getErrMsg());
         }
 
         // model->dataobject

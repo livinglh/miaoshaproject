@@ -42,7 +42,7 @@ public CommonReturnType getOtp(@RequestParam(name="telphone") String telphone){
 }
 ```
 
-2.  前端页面实现（基于metronic模板）
+2.  前端页面实现与美化（基于metronic模板）
 
 ```html
 <!DOCTYPE html>
@@ -50,18 +50,21 @@ public CommonReturnType getOtp(@RequestParam(name="telphone") String telphone){
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="static/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="static/assets/global/css/components.css" rel="stylesheet" type="text/css" />
+    <link href="static/admin/pages/css/login.css" rel="stylesheet" type="text/css" />
     <script src="static/assets/global/plugins/jquery-1.11.0.min.js" type="text/javascript"></script>
 </head>
-<body>
-    <div>
-        <h3>获取otp信息</h3>
-        <div>
-            <label></label>
+<body class="login">
+    <div class="content">
+        <h3 class="form-title">获取otp信息</h3>
+        <div class="form-group">
+            <label class="control-label">手机号</label>
             <div>
-                <input type="text" placeholder="手机号" name="telphone" id="telphone"/>
+                <input class="form-control" classtype="text" placeholder="手机号" name="telphone" id="telphone"/>
             </div>
-            <div>
-                <button id="getotp" type="submit">
+            <div class="form-actions">
+                <button class="btn blue" id="getotp" type="submit">
                     获取otp短信
                 </button>
             </div>
@@ -111,5 +114,14 @@ public CommonReturnType getOtp(@RequestParam(name="telphone") String telphone){
 @CrossOrigin
     
 @RequestMapping(value = "/getotp", method = {RequestMethod.POST}, consumes = {CONTENT_TYPE_FORMED})
-
+public CommonReturnType getOtp(@RequestParam(name="telphone") String telphone)
 ```
+
+3. 用户注册
+   1. controller层添加相应的方法regist()，其中调用sevice层的方法
+   2. service层添加相应的方法rigist()
+   3. 新建相应的前端文件register.html
+4. 用户登录
+5. 校验规则优化
+   1. 新建ValidationResult.java校验结果返回类
+   2. 新建ValidatorImpl.java校验方法实现类，其中调用Validator类的方法validate对相应的bean进行校验
