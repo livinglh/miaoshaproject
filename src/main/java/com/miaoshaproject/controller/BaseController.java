@@ -20,7 +20,7 @@ public class BaseController {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Object handlerException(HttpServletRequest httpServletRequest, Exception ex){
+    public Object handlerException(HttpServletRequest request, Exception ex){
         Map<String,Object> responseData = new HashMap<>();
         if( ex instanceof BusinessException){
             BusinessException businessException = (BusinessException) ex;

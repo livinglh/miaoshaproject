@@ -37,3 +37,29 @@ Y
 )src/main/resources/application.properties,0\6\06f65155ec73600b9fc5c4dc2883d4bb84d8e284
 ;
 miaosha.iml,f\9\f96a42537632e32399a65b01cc6ef7e0a3deba59
+Z
+*src/main/metronic/static/js/pages/login.js,6\e\6e242ac731b87fa8b3b7e572d40a6d6bb83356f3
+o
+?src/main/java/com/miaoshaproject/response/CommonReturnType.java,b\d\bd198fe5b7534b58e797aee5737c481dea8ab73d
+z
+Jsrc/main/metronic/static/assets/global/plugins/bootstrap/css/bootstrap.css,f\3\f363bcc3818d805770175c9eb7fd422893d15798
+M
+src/main/metronic/getotp.html,0\e\0e61781468d61ee95baa06e9050cc403f5bddbdc
+L
+src/main/metronic/login.html,2\b\2bb262d494c671185a194211bc4ca9b4f71193d7
+O
+src/main/metronic/register.html,8\1\81cf922a71fa3eb100b30fc13279c48c59b31b63
+o
+?src/main/java/com/miaoshaproject/controller/BaseController.java,0\e\0eb6d0cf65d5a6aa909b2974adb36043148b869a
+p
+@src/main/java/com/miaoshaproject/validator/ValidationResult.java,d\7\d7fba7f2330c7d8db36f8cd1eca74e122acc13f6
+9
+	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+m
+=src/main/java/com/miaoshaproject/validator/ValidatorImpl.java,6\3\63814e94a13ccfa1f46500a9ae3757e2515af532
+k
+;src/main/java/com/miaoshaproject/error/EmBusinessError.java,b\1\b1364af7cd7474acdbb790a3cc7530f01faa558b
+g
+7src/main/java/com/miaoshaproject/error/CommonError.java,2\1\2143b1490b843d880e805fa7ac0d4d682d985c4a
+m
+=src/main/java/com/miaoshaproject/error/BusinessException.java,c\c\ccc8bd85e4bbe514dbbb046627dc1f715194f890
