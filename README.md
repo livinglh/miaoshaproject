@@ -13,7 +13,7 @@
 
 ## 模型能力建设
 
-### 用户信息管理
+### 用户模型管理
 
 otp短信获取，otp注册用户，用户手机登录
 
@@ -110,17 +110,45 @@ public CommonReturnType getOtp(@RequestParam(name="telphone") String telphone){
 
 ```java
 # springboot该标签解决ajax跨域请求问题
-@CrossOrigin
+@CrossOrigin(allowCredentials = "true", origins = "*")
     
 @RequestMapping(value = "/getotp", method = {RequestMethod.POST}, consumes = {CONTENT_TYPE_FORMED})
 public CommonReturnType getOtp(@RequestParam(name="telphone") String telphone)
 ```
 
 3. 用户注册
-   1. controller层添加相应的方法regist()，其中调用sevice层的方法
-   2. service层添加相应的方法rigist()
-   3. 新建相应的前端文件register.html
+   1. mapper中在.xml中添加查询详细信息的Sql配置
+   2. 在mapper接口中添加上面的方法
+   3. 在service接口中添加相应的方法和方法实现
+   4. controller层添加相应的方法regist()，其中调用sevice层的方法
+   5. 新建相应的前端文件register.html
 4. 用户登录
 5. 校验规则优化
    1. 新建ValidationResult.java校验结果返回类
    2. 新建ValidatorImpl.java校验方法实现类，其中调用Validator类的方法validate对相应的bean进行校验
+
+### 商品模型管理
+
+首先不要去动数据库，先设计商品领域模型
+
+1. 创建商品
+2. 商品列表查询
+3. 商品详情查询
+4. 商品列表到商品详情页的跳转
+
+### 交易模型管理
+
+场景：用户1个订单购买了1件商品，支付了1次费用
+
+1. 校验下单状态
+2. 落单减库存
+3. 订单入库
+4. 销量增加
+5. 返回前端
+
+### 秒杀模型管理
+
+
+
+
+

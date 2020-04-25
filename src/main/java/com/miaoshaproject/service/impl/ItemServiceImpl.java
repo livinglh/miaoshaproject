@@ -95,6 +95,24 @@ public class ItemServiceImpl implements ItemService {
         return itemModel;
     }
 
+    // 库存扣减
+    @Override
+    @Transactional
+    public boolean decreaseStock(Integer itemId, Integer amount) {
+        int affectedRow = itemStockDOMapper.decreaseStock(itemId,amount);
+        if(affectedRow>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    @Transactional
+    public void increaseSales(Integer itemId, Integer amount) {
+        itemDOMapper.increaseSales(itemId,amount);
+    }
+
     private ItemModel covertModelFromData(ItemDO itemDO, ItemStockDO itemStockDO){
         ItemModel itemModel = new ItemModel();
         BeanUtils.copyProperties(itemDO,itemModel);
