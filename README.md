@@ -1,5 +1,5 @@
 # miaoshaproject
-一个简单的 java springboot 秒杀项目
+慕课网：SpringBoot构建电商基础秒杀项目
 
 ## 基础能力建设
 

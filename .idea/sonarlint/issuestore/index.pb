@@ -31,10 +31,6 @@ m
 =src/main/java/com/miaoshaproject/service/model/UserModel.java,b\4\b4029b36298ebab8829d3405aef36854780acea6
 i
 9src/main/java/com/miaoshaproject/service/UserService.java,1\6\1687d1b1dcd34f447c046a61e0cea14d20c82c40
-c
-3src/main/resources/mapping/UserPasswordDOMapper.xml,8\0\801f1371f3f96d68d95f625273dca3e9f3c9f22f
-Y
-)src/main/resources/application.properties,0\6\06f65155ec73600b9fc5c4dc2883d4bb84d8e284
 ;
 miaosha.iml,f\9\f96a42537632e32399a65b01cc6ef7e0a3deba59
 Z
