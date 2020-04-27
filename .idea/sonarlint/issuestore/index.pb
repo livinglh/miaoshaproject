@@ -103,3 +103,17 @@ _
 /src/main/resources/mapping/SequenceDOMapper.xml,6\b\6b950de5a999f263faceb4db3cef13830a56f917
 o
 ?src/main/java/com/miaoshaproject/controller/ItemController.java,4\5\4557a26c4c059f4fff2fb56d87df52558c70587b
+s
+Csrc/main/java/com/miaoshaproject/service/impl/PromoServiceImpl.java,b\a\ba51cbe331e481f73216c801fdf9f4095ec0958f
+\
+,src/main/resources/mapping/OrderDOMapper.xml,c\8\c86f830e569b6b332fc5015a32ce0d9bb555409a
+\
+,src/main/resources/mapping/PromoDOMapper.xml,f\d\fdc58c3529985f77c01a3d1f2898ef83ccfbad7b
+g
+7src/main/java/com/miaoshaproject/dao/PromoDOMapper.java,0\e\0e29956f19984c137f3b1accb6f49cd24a9ee3ae
+h
+8src/main/java/com/miaoshaproject/dataobject/PromoDO.java,e\6\e6caee284cd817128224605a18dff1a82146138c
+j
+:src/main/java/com/miaoshaproject/service/PromoService.java,4\c\4c601ca98b855bdc3508230240a09eac56ffb4a8
+n
+>src/main/java/com/miaoshaproject/service/model/PromoModel.java,3\2\320e04a68faba06e9ab013e8c6cdc496eaffda04
