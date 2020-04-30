@@ -119,3 +119,7 @@ N
 src/main/htmlStable/gethost.js,6\4\644ea84caa37be99cb5e778a6845dcf5be7dfff5
 O
 src/main/htmlStable/getotp.html,2\f\2f9fff76d1e08d0f577a6ec675be9b64a39af2df
+Y
+)src/main/resources/application.properties,0\6\06f65155ec73600b9fc5c4dc2883d4bb84d8e284
+h
+8src/main/java/com/miaoshaproject/config/RedisConfig.java,5\2\52d39a470acf0a9b660ef81ad8c3d618f560d65c
