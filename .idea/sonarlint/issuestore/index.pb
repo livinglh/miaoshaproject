@@ -127,3 +127,7 @@ h
 Msrc/main/java/com/miaoshaproject/serializer/JodaDateTimeJsonDeserializer.java,b\6\b611799df74f0f9cd92e0a62c549a94bfaff95e6
 {
 Ksrc/main/java/com/miaoshaproject/serializer/JodaDateTimeJsonSerializer.java,0\3\03163ed4ea65ea98fc3946f65d504798701d261d
+j
+:src/main/java/com/miaoshaproject/service/CacheService.java,6\2\629a447adc6656957926a45634946c44f9b51d19
+s
+Csrc/main/java/com/miaoshaproject/service/impl/CacheServiceImpl.java,9\9\996b4594962318b0f5e660e702105211e64aa706

@@ -9,6 +9,9 @@ public interface UserService {
 
     void rigist(UserModel userModel) throws BusinessException;
 
+    // 通过缓存获取用户对象
+    UserModel getUserByIdInCache(Integer id);
+
     /*
     telphone:用户手机号
     password:用户加密后的密码

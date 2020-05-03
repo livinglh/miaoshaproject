@@ -42,11 +42,13 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public OrderModel creatOrder(Integer userId, Integer itemId, Integer promoId, Integer amount) throws BusinessException {
         // 1.校验下单状态，商品是否存在，用户是否合法，购买数量是否正确
-        ItemModel itemModel = itemService.getItemById(itemId);
+//        ItemModel itemModel = itemService.getItemById(itemId);
+        ItemModel itemModel = itemService.getItemByIdInCache(itemId);
         if(itemModel == null){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"商品信息不存在");
         }
-        UserModel userModel = userService.getUserById(userId);
+//        UserModel userModel = userService.getUserById(userId);
+        UserModel userModel = userService.getUserByIdInCache(userId);
         if(userModel == null){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"用户信息不存在");
         }
@@ -54,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"数量信息不合理");
         }
 
-        // 校验活动信息
+        // 校验活动信息 内存操作
         if(promoId != null){
             // a 校验活动是否存在这个使用商品
             if(promoId.intValue() != itemModel.getPromoModel().getId()){
