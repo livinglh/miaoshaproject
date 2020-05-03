@@ -51,7 +51,7 @@ public class PromoServiceImpl implements PromoService {
     @Override
     public void publishpromo(Integer promoId) {
         //通过活动id获取活动
-        PromoDO promoDO=promoDOMapper.selectByItemId(promoId);
+        PromoDO promoDO=promoDOMapper.selectByPrimaryKey(promoId);
         if (promoDO.getItemId()==null||promoDO.getItemId().intValue()==0){//说明对应的操作不存在，这个活动没有适应的商品
             return;
         }

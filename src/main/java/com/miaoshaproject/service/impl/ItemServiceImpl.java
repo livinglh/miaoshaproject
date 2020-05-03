@@ -6,6 +6,7 @@ import com.miaoshaproject.dataobject.ItemDO;
 import com.miaoshaproject.dataobject.ItemStockDO;
 import com.miaoshaproject.error.BusinessException;
 import com.miaoshaproject.error.EmBusinessError;
+import com.miaoshaproject.mq.MqProducer;
 import com.miaoshaproject.service.ItemService;
 import com.miaoshaproject.service.PromoService;
 import com.miaoshaproject.service.model.ItemModel;
@@ -39,6 +40,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     RedisTemplate redisTemplate;
+
+    @Autowired
+    private MqProducer mqProducer;
 
     private ItemDO convertItemDOFromItemModel(ItemModel itemModel){
         if(itemModel == null){
@@ -129,8 +133,15 @@ public class ItemServiceImpl implements ItemService {
         //int affectedRow = itemStockDOMapper.decreaseStock(itemId,amount);
         Long result=redisTemplate.opsForValue().increment("promo_item_stock_"+itemId,amount.intValue()*-1);
         if(result>0){
+            // 更新库存成功
+            boolean mqResult = mqProducer.asyncReduceStock(itemId,amount);
+            if(!mqResult){
+                redisTemplate.opsForValue().increment("promo_item_stock_"+itemId,amount.intValue());
+                return false;
+            }
             return true;
         }else{
+            redisTemplate.opsForValue().increment("promo_item_stock_"+itemId,amount.intValue());
             return false;
         }
     }
