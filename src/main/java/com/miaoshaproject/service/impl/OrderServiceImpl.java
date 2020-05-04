@@ -54,24 +54,24 @@ public class OrderServiceImpl implements OrderService {
         if(itemModel == null){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"商品信息不存在");
         }
-//        UserModel userModel = userService.getUserById(userId);
-        UserModel userModel = userService.getUserByIdInCache(userId);
-        if(userModel == null){
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"用户信息不存在");
-        }
+////        UserModel userModel = userService.getUserById(userId);
+//        UserModel userModel = userService.getUserByIdInCache(userId);
+//        if(userModel == null){
+//            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"用户信息不存在");
+//        }
         if(amount <= 0 || amount > 99){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"数量信息不合理");
         }
 
-        // 校验活动信息 内存操作
-        if(promoId != null){
-            // a 校验活动是否存在这个使用商品
-            if(promoId.intValue() != itemModel.getPromoModel().getId()){
-                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "活动信息不存咋");
-            }else if(itemModel.getPromoModel().getStatus() != 2){
-                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "活动还未开始");
-            }
-        }
+//        // 校验活动信息 内存操作
+//        if(promoId != null){
+//            // a 校验活动是否存在这个使用商品
+//            if(promoId.intValue() != itemModel.getPromoModel().getId()){
+//                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "活动信息不存咋");
+//            }else if(itemModel.getPromoModel().getStatus() != 2){
+//                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "活动还未开始");
+//            }
+//        }
 
         // 2.落单减库存
         boolean result = itemService.decreaseStock(itemId, amount);
