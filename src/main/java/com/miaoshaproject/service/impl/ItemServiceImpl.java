@@ -9,6 +9,7 @@ import com.miaoshaproject.dataobject.StockLogDO;
 import com.miaoshaproject.error.BusinessException;
 import com.miaoshaproject.error.EmBusinessError;
 import com.miaoshaproject.mq.MqProducer;
+import com.miaoshaproject.service.CacheService;
 import com.miaoshaproject.service.ItemService;
 import com.miaoshaproject.service.PromoService;
 import com.miaoshaproject.service.model.ItemModel;
@@ -47,6 +48,14 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private StockLogDOMapper stockLogDOMapper;
+
+    @Autowired
+    private ItemService itemService;
+
+    @Autowired
+    private CacheService cacheService;
+
+
     private ItemDO convertItemDOFromItemModel(ItemModel itemModel){
         if(itemModel == null){
             return null;
@@ -142,7 +151,10 @@ public class ItemServiceImpl implements ItemService {
 //                redisTemplate.opsForValue().increment("promo_item_stock_"+itemId,amount.intValue());
 //                return false;
 //            }
-            //打上库存已售罄的标识
+            // 填充本地缓存
+            ItemModel itemModel = itemService.getItemByIdInCache(itemId);
+            itemModel.setStock(result.intValue());
+            cacheService.setCommonCache("item_"+itemId,itemModel);
             return true;
         }else if(result == 0){
             //打上库存已售罄的标识
