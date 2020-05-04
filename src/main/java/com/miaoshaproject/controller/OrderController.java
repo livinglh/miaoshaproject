@@ -1,6 +1,8 @@
 package com.miaoshaproject.controller;
 
 
+
+import com.google.common.util.concurrent.RateLimiter;
 import com.miaoshaproject.error.BusinessException;
 import com.miaoshaproject.error.EmBusinessError;
 import com.miaoshaproject.mq.MqProducer;
@@ -51,9 +53,13 @@ public class OrderController extends BaseController {
 
     private ExecutorService executorService;
 
+    private RateLimiter orderCreateRateLimiter;
+
     @PostConstruct
     public void init(){
         executorService = Executors.newFixedThreadPool(20);
+        //创建一个限流器
+        orderCreateRateLimiter=RateLimiter.create(300);
     }
 
 
@@ -86,6 +92,11 @@ public class OrderController extends BaseController {
     public CommonReturnType generatetoken(@RequestParam(name="itemId")Integer itemId,
                                           @RequestParam(name="promoId")Integer promoId,
                                           @RequestParam(name="verifyCode")String verifyCode) throws BusinessException {
+
+        if (orderCreateRateLimiter.acquire()<0){
+            throw new BusinessException(EmBusinessError.RATELIMIT);
+        }
+
         //根据token获取用户信息
         String token = httpServletRequest.getParameterMap().get("token")[0];
         if(StringUtils.isEmpty(token)){
