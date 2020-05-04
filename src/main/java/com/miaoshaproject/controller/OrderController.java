@@ -16,7 +16,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import java.util.concurrent.*;
 
 @Controller("order")
 @RequestMapping("/order")
@@ -40,6 +42,14 @@ public class OrderController extends BaseController {
 
     @Autowired
     private PromoService promoService;
+
+
+    private ExecutorService executorService;
+
+    @PostConstruct
+    public void init(){
+        executorService = Executors.newFixedThreadPool(20);
+    }
 
     //生成秒杀令牌
     @RequestMapping(value = "/generatetoken",method = {RequestMethod.POST},consumes={CONTENT_TYPE_FORMED})
@@ -103,12 +113,31 @@ public class OrderController extends BaseController {
 //            throw new BusinessException(EmBusinessError.STOCK_NOT_ENOUGH);
 //        }
 
-        //加入库存流水init状态
-        String stockLogId = itemService.initStockLog(itemId,amount);
+
+        //同步调用线程池的submit方法
+        //拥塞窗口为20的等待队列，用来队列化泄洪
+        Future<Object> future = executorService.submit(new Callable<Object>() {
+
+            @Override
+            public Object call() throws Exception {
+                //加入库存流水init状态
+                String stockLogId = itemService.initStockLog(itemId,amount);
 
 
-        if(!mqProducer.transactionAsyncReduceStock(userModel.getId(),itemId,promoId,amount,stockLogId)){
-            throw new BusinessException(EmBusinessError.UNKNOWN_ERROR,"下单失败");
+                //再去完成对应的下单事务型消息机制
+                if(!mqProducer.transactionAsyncReduceStock(userModel.getId(),itemId,promoId,amount,stockLogId)){
+                    throw new BusinessException(EmBusinessError.UNKNOWN_ERROR,"下单失败");
+                }
+                return null;
+            }
+        });
+
+        try {
+            future.get();
+        } catch (InterruptedException e) {
+            throw new BusinessException(EmBusinessError.UNKNOWN_ERROR);
+        } catch (ExecutionException e) {
+            throw new BusinessException(EmBusinessError.UNKNOWN_ERROR);
         }
         return CommonReturnType.create(null);
     }
