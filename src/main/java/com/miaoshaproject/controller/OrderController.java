@@ -98,10 +98,10 @@ public class OrderController extends BaseController {
             }
         }
 
-        //判断是否库存已售罄，若对应的售罄key存在，则直接返回下单失败
-        if(redisTemplate.hasKey("promo_item_stock_invalid_"+itemId)){
-            throw new BusinessException(EmBusinessError.STOCK_NOT_ENOUGH);
-        }
+//        //判断是否库存已售罄，若对应的售罄key存在，则直接返回下单失败
+//        if(redisTemplate.hasKey("promo_item_stock_invalid_"+itemId)){
+//            throw new BusinessException(EmBusinessError.STOCK_NOT_ENOUGH);
+//        }
 
         //加入库存流水init状态
         String stockLogId = itemService.initStockLog(itemId,amount);
