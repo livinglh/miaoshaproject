@@ -1,5 +1,7 @@
 
-X	java:S1250"<This block of commented-out lines of code should be removed.(ÀËå«8­Šçãš.
+q
+java:S1192S"ODefine a constant instead of duplicating this literal "user_validate_" 3 times.(¯íø¾øÿÿÿÿ8¡ æÀ.
+]	java:S1258"<This block of commented-out lines of code should be removed.(«¾úÿÿÿÿ8­Šçãš.
+X	java:S1255"<This block of commented-out lines of code should be removed.(ÀËå«8­Šçãš.
 8
-java:S3626I"Remove this redundant jump.(ûÁİ…8ßáæãš.
-]	java:S1253"<This block of commented-out lines of code should be removed.(«¾úÿÿÿÿ8­Šçãš.
+java:S3626N"Remove this redundant jump.(ûÁİ…8ßáæãš.

@@ -129,3 +129,11 @@ j
 :src/main/java/com/miaoshaproject/service/CacheService.java,6\2\629a447adc6656957926a45634946c44f9b51d19
 s
 Csrc/main/java/com/miaoshaproject/service/impl/CacheServiceImpl.java,9\9\996b4594962318b0f5e660e702105211e64aa706
+Y
+)src/main/resources/application.properties,0\6\06f65155ec73600b9fc5c4dc2883d4bb84d8e284
+c
+3src/main/java/com/miaoshaproject/mq/MqConsumer.java,b\7\b7e8a83940de0a670ff512015b04c94d111b0425
+c
+3src/main/java/com/miaoshaproject/mq/MqProducer.java,d\5\d5fc1da24aeae27658c2237e28db4088bd8084fb
+k
+;src/main/java/com/miaoshaproject/dataobject/StockLogDO.java,7\d\7df2db0d4e8f9715e2483d2fefae63c3c1b015d9

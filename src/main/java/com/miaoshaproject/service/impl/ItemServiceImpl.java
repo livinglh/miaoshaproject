@@ -2,8 +2,10 @@ package com.miaoshaproject.service.impl;
 
 import com.miaoshaproject.dao.ItemDOMapper;
 import com.miaoshaproject.dao.ItemStockDOMapper;
+import com.miaoshaproject.dao.StockLogDOMapper;
 import com.miaoshaproject.dataobject.ItemDO;
 import com.miaoshaproject.dataobject.ItemStockDO;
+import com.miaoshaproject.dataobject.StockLogDO;
 import com.miaoshaproject.error.BusinessException;
 import com.miaoshaproject.error.EmBusinessError;
 import com.miaoshaproject.mq.MqProducer;
@@ -11,7 +13,6 @@ import com.miaoshaproject.service.ItemService;
 import com.miaoshaproject.service.PromoService;
 import com.miaoshaproject.service.model.ItemModel;
 import com.miaoshaproject.service.model.PromoModel;
-import com.miaoshaproject.service.model.UserModel;
 import com.miaoshaproject.validator.ValidationResult;
 import com.miaoshaproject.validator.ValidatorImpl;
 import org.springframework.beans.BeanUtils;
@@ -21,8 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,8 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private MqProducer mqProducer;
 
+    @Autowired
+    private StockLogDOMapper stockLogDOMapper;
     private ItemDO convertItemDOFromItemModel(ItemModel itemModel){
         if(itemModel == null){
             return null;
@@ -129,27 +132,60 @@ public class ItemServiceImpl implements ItemService {
     // 库存扣减
     @Override
     @Transactional
-    public boolean decreaseStock(Integer itemId, Integer amount) {
+    public boolean decreaseStock(Integer itemId, Integer amount) throws BusinessException {
         //int affectedRow = itemStockDOMapper.decreaseStock(itemId,amount);
         Long result=redisTemplate.opsForValue().increment("promo_item_stock_"+itemId,amount.intValue()*-1);
         if(result>0){
             // 更新库存成功
-            boolean mqResult = mqProducer.asyncReduceStock(itemId,amount);
-            if(!mqResult){
-                redisTemplate.opsForValue().increment("promo_item_stock_"+itemId,amount.intValue());
-                return false;
-            }
+//            boolean mqResult = mqProducer.asyncReduceStock(itemId,amount);
+//            if(!mqResult){
+//                redisTemplate.opsForValue().increment("promo_item_stock_"+itemId,amount.intValue());
+//                return false;
+//            }
+            //打上库存已售罄的标识
+            redisTemplate.opsForValue().set("promo_item_stock_invalid_"+itemId,"true");
+            //更新库存成功
             return true;
         }else{
-            redisTemplate.opsForValue().increment("promo_item_stock_"+itemId,amount.intValue());
+            increaseStock(itemId,amount);
             return false;
         }
+    }
+
+
+    @Override
+    public boolean increaseStock(Integer itemId, Integer amount) throws BusinessException {
+        redisTemplate.opsForValue().increment("promo_item_stock_"+itemId,amount.intValue());
+        return true;
+    }
+
+    @Override
+    public boolean asyncDecreaseStock(Integer itemId, Integer amount) {
+        boolean mqResult = mqProducer.asyncReduceStock(itemId,amount);
+        return mqResult;
     }
 
     @Override
     @Transactional
     public void increaseSales(Integer itemId, Integer amount) {
         itemDOMapper.increaseSales(itemId,amount);
+    }
+
+    //初始化对应的库存流水
+    @Override
+    @Transactional
+    public String initStockLog(Integer itemId, Integer amount) {
+        StockLogDO stockLogDO = new StockLogDO();
+        stockLogDO.setItemId(itemId);
+        stockLogDO.setAmount(amount);
+        stockLogDO.setStockLogId(UUID.randomUUID().toString().replace("-",""));
+
+        // 1:初始状态 2：下单扣减库存成功 3：回滚
+        stockLogDO.setStatus(1);
+
+        stockLogDOMapper.insertSelective(stockLogDO);
+
+        return stockLogDO.getStockLogId();
     }
 
     private ItemModel covertModelFromData(ItemDO itemDO, ItemStockDO itemStockDO){
