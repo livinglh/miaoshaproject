@@ -143,10 +143,15 @@ public class ItemServiceImpl implements ItemService {
 //                return false;
 //            }
             //打上库存已售罄的标识
+            return true;
+        }else if(result == 0){
+            //打上库存已售罄的标识
             redisTemplate.opsForValue().set("promo_item_stock_invalid_"+itemId,"true");
+
             //更新库存成功
             return true;
         }else{
+            //更新库存失败
             increaseStock(itemId,amount);
             return false;
         }
