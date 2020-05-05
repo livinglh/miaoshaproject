@@ -137,3 +137,11 @@ c
 3src/main/java/com/miaoshaproject/mq/MqProducer.java,d\5\d5fc1da24aeae27658c2237e28db4088bd8084fb
 k
 ;src/main/java/com/miaoshaproject/dataobject/StockLogDO.java,7\d\7df2db0d4e8f9715e2483d2fefae63c3c1b015d9
+j
+:src/main/java/com/miaoshaproject/dao/StockLogDOMapper.java,2\9\29cc5a383bcb39bab310447b1489055d0abbc609
+_
+/src/main/resources/mapping/StockLogDOMapper.xml,c\d\cd4cce5854be06d32b4a33677a7806a3f903de11
+X
+(src/main/resources/mybatis-generator.xml,c\0\c092e5609baf8fe5f059599edf34a4534b859b96
+c
+3src/main/java/com/miaoshaproject/util/CodeUtil.java,e\3\e302c4aded49ca94ecfcbae6e9fbd485ec949304
