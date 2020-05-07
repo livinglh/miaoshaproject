@@ -3,6 +3,7 @@
 
 慕课网：聚焦Java性能优化 打造亿级流量秒杀系统
 
+我的学习笔记：https://livinglh.top/
 ## 基础能力建设
 
 ### SpringBoot + Mybatis + SpringMVC 基础项目的搭建
