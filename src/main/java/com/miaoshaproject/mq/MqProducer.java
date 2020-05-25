@@ -61,6 +61,7 @@ public class MqProducer {
                 Integer amount = (Integer) ((Map)arg).get("amount");
                 String stockLogId = (String) ((Map)arg).get("stockLogId");
                 try {
+                    //当这个createOrder操作没有明确的返回成功或失败的时候，执行完后断连
                     orderService.createOrder(userId,itemId,promoId,amount, stockLogId);
                 } catch (BusinessException e) {
                     e.printStackTrace();
@@ -73,9 +74,11 @@ public class MqProducer {
                 return LocalTransactionState.COMMIT_MESSAGE;
             }
 
+            // 若长时间没有返回状态，一直是unknow状态，这个方法会回调。
             @Override
             public LocalTransactionState checkLocalTransaction(MessageExt msg) {
                 //根据是否扣减库存成功，来判断要返回COMMIT,ROLLBACK还是继续UNKNOWN
+                //引入stockLogDO订单流水，以此判断库存扣减和下单是否成功
                 String jsonString  = new String(msg.getBody());
                 Map<String,Object>map = JSON.parseObject(jsonString, Map.class);
                 Integer itemId = (Integer) map.get("itemId");
@@ -114,6 +117,7 @@ public class MqProducer {
                 JSON.toJSON(bodyMap).toString().getBytes(Charset.forName("UTF-8")));
         TransactionSendResult sendResult = null;
         try {
+            // 发送事务型消息。有一个二阶段提交
             sendResult = transactionMQProducer.sendMessageInTransaction(message,argsMap);
         } catch (MQClientException e) {
             e.printStackTrace();

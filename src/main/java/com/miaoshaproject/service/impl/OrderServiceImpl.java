@@ -49,6 +49,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public OrderModel createOrder(Integer userId, Integer itemId, Integer promoId, Integer amount, String stockLogId) throws BusinessException {
         // 1.校验下单状态，商品是否存在，用户是否合法，购买数量是否正确
+        // 活动，商品，用户校验在生成秒杀令牌中验证
 //        ItemModel itemModel = itemService.getItemById(itemId);
         ItemModel itemModel = itemService.getItemByIdInCache(itemId);
         if(itemModel == null){
@@ -110,9 +111,10 @@ public class OrderServiceImpl implements OrderService {
         stockLogDOMapper.updateByPrimaryKeySelective(stockLogDO);
 
 //        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
+//                //该方法会在最近的事务成功commit之后执行
 //                @Override
 //                public void afterCommit(){
-//                    //异步更新库存
+//                    //异步更新库存 这里若异步消息投递失败，库存就永远无法更新成功
 //                    boolean mqResult = itemService.asyncDecreaseStock(itemId,amount);
 ////                    if(!mqResult){
 ////                        itemService.increaseStock(itemId,amount);

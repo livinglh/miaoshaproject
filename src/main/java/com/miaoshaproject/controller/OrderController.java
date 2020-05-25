@@ -58,7 +58,7 @@ public class OrderController extends BaseController {
     @PostConstruct
     public void init(){
         executorService = Executors.newFixedThreadPool(20);
-        //创建一个限流器
+        //创建一个限流器 两台600多qps
         orderCreateRateLimiter=RateLimiter.create(300);
     }
 
@@ -147,7 +147,7 @@ public class OrderController extends BaseController {
             throw new BusinessException(EmBusinessError.USER_NOT_LOGIN,"用户还未登陆，不能下单");
         }
         // 用户登录成功
-        //校验秒杀令牌是否正确
+        // 校验秒杀令牌是否正确
         if(promoId != null){
             String inRedisPromoToken = (String) redisTemplate.opsForValue().get("promo_token_"+promoId+"_userid_"+userModel.getId()+"_itemid_"+itemId);
             if(inRedisPromoToken == null){
@@ -157,7 +157,7 @@ public class OrderController extends BaseController {
                 throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"秒杀令牌校验失败");
             }
         }
-
+//        //前置到秒杀令牌发放中
 //        //判断是否库存已售罄，若对应的售罄key存在，则直接返回下单失败
 //        if(redisTemplate.hasKey("promo_item_stock_invalid_"+itemId)){
 //            throw new BusinessException(EmBusinessError.STOCK_NOT_ENOUGH);
@@ -174,7 +174,7 @@ public class OrderController extends BaseController {
                 String stockLogId = itemService.initStockLog(itemId,amount);
 
 
-                //再去完成对应的下单事务型消息机制
+                //再去完成对应的下单mq事务型消息机制
                 if(!mqProducer.transactionAsyncReduceStock(userModel.getId(),itemId,promoId,amount,stockLogId)){
                     throw new BusinessException(EmBusinessError.UNKNOWN_ERROR,"下单失败");
                 }

@@ -69,6 +69,8 @@ public class PromoServiceImpl implements PromoService {
         redisTemplate.opsForValue().set("promo_item_stock_"+itemModel.getId(),itemModel.getStock());
 
         //将大闸的限制数字设到redis内
+        //秒杀令牌只要活动一开始就会无限生成,影响系统性能
+        //引入秒杀大闸，根据库存来颁发对应的数量的令牌，控制大闸流量
         redisTemplate.opsForValue().set("promo_door_count_"+promoId,itemModel.getStock().intValue() * 5);
     }
 

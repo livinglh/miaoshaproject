@@ -7,6 +7,23 @@
 
 我的学习笔记：https://livinglh.top/
 
+
+## 项目运行
+1. 启动mysql服务
+2. 启动redis
+3. 启动rocketmq
+- 先启动mqnameserver，然后启动broker
+
+```
+# cmd中
+mqnamesrv
+mqbroker.exe -n localhost:9876
+```
+
+
+4. 启动项目
+
+
 ## 基础能力建设
 
 ### SpringBoot + Mybatis + SpringMVC 基础项目的搭建
